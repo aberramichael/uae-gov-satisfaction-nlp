@@ -1,0 +1,28 @@
+# Byte-compiled / optimised files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and secrets
+.env
+*.key
+
+# Model artefacts
+models/*.bin
+models/*.safetensors
+*.pt
+
+# Keep placeholder directories tracked
+!.gitkeep
+
+# Raw review text
+# Uncomment the line below if raw review text must not be committed to the repository.
+# data/raw/*.csv
