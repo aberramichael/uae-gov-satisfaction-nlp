@@ -60,8 +60,4 @@ uae-gov-satisfaction-nlp/
     └── aspect_lexicon.md
 ```
 
-## Data Availability
 
-Review text is not redistributed in this repository, in line with the app stores' terms of use.
-The collection scripts in `src/scraping.py` together with the app list and review identifiers
-in `data/raw/` permit replication of the dataset from the original sources.
