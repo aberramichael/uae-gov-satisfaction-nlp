@@ -1,0 +1,4 @@
+model,auc
+TF-IDF + logistic regression,0.9604955607283595
+TF-IDF + linear SVM,0.9605385630125174
+TF-IDF + multinomial naive Bayes,0.9447828869553396

@@ -1,0 +1,8 @@
+key,model,status,n_test,macro_f1,ci_low,ci_high,recall_dissatisfied,recall_satisfied,precision_dissatisfied,auc,accuracy_secondary
+tfidf_lr,TF-IDF + logistic regression,scored,7340.0,0.908337750680523,0.9016965066171176,0.9148607517275816,0.9325815150772249,0.8813247470101196,0.9076592698639943,0.9604955607283595,0.9098092643051771
+tfidf_svm,TF-IDF + linear SVM,scored,7340.0,0.9107241338054112,0.9042414046669157,0.9171415426675746,0.9441039470458445,0.8727384237963814,0.9027191748710736,0.9605385630125174,0.9123978201634877
+tfidf_nb,TF-IDF + multinomial naive Bayes,scored,7340.0,0.8904034162011631,0.8831612651060242,0.8976272863631762,0.9433684726648689,0.8301134621281815,0.8741481144934121,0.9447828869553396,0.8930517711171662
+xlmr,XLM-RoBERTa (base),awaiting notebook 07 output,,,,,,,,,
+mbert,Multilingual BERT,awaiting notebook 07 output,,,,,,,,,
+arabert,AraBERT,awaiting notebook 07 output,,,,,,,,,
+marbert,MARBERT,awaiting notebook 07 output,,,,,,,,,

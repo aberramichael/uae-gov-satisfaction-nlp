@@ -1,0 +1,8 @@
+statistic,value,basis
+"Dissatisfied share, English",59.8%,"22,145 / 37,061"
+"Dissatisfied share, Arabic",42.5%,"5,045 / 11,869"
+Difference (95% CI),17.2 pp,"[16.2, 18.3]"
+Pearson chi-square (df = 1),1082.41,p < .001
+Phi,0.149,
+Cohen's h,0.347,
+Odds ratio,2.01,

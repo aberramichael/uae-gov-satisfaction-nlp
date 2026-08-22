@@ -1,48 +1,30 @@
-"""Feature construction: TF-IDF vectorisation and aspect lexicon matching.
+"""TF-IDF feature construction for the classical baselines.
 
-TF-IDF features feed the classical baselines. The aspect lexicon maps reviews
-to service aspects (see ``docs/aspect_lexicon.md``) for aspect-level analysis.
+Word 1-2 grams and character 3-5 grams (within word boundaries) are stacked.
+The character view matters for Arabic, where clitics and spelling variation
+fragment the word-level vocabulary.
 """
 
 from __future__ import annotations
 
-import pandas as pd
+from scipy.sparse import hstack
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import FeatureUnion
 
 
-def build_tfidf(texts, **vectoriser_kwargs):
-    """Fit a TF-IDF vectoriser over cleaned review text.
-
-    Args:
-        texts: Iterable of cleaned review strings (classical pipeline input).
-        **vectoriser_kwargs: Keyword arguments forwarded to the vectoriser
-            (e.g. ``ngram_range``, ``min_df``, ``max_features``).
-
-    Returns:
-        A tuple of the fitted vectoriser and the transformed feature matrix.
-    """
-    raise NotImplementedError
+def word_vectorizer(**kw) -> TfidfVectorizer:
+    return TfidfVectorizer(analyzer="word", ngram_range=(1, 2), min_df=2,
+                           sublinear_tf=True, token_pattern=r"(?u)\b\w+\b", **kw)
 
 
-def load_aspect_lexicon(path: str) -> dict:
-    """Load the aspect seed lexicon.
-
-    Args:
-        path: Path to the lexicon source (see ``docs/aspect_lexicon.md``).
-
-    Returns:
-        A mapping of aspect name to its English and Arabic seed keywords.
-    """
-    raise NotImplementedError
+def char_vectorizer(**kw) -> TfidfVectorizer:
+    return TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), min_df=3,
+                           sublinear_tf=True, **kw)
 
 
-def tag_aspects(df: pd.DataFrame, lexicon: dict) -> pd.DataFrame:
-    """Tag each review with the aspects it mentions using the seed lexicon.
+def word_char_features() -> FeatureUnion:
+    return FeatureUnion([("word", word_vectorizer()), ("char", char_vectorizer())])
 
-    Args:
-        df: DataFrame of reviews.
-        lexicon: Aspect lexicon as returned by ``load_aspect_lexicon``.
 
-    Returns:
-        The DataFrame with an added column of matched aspect tags per review.
-    """
-    raise NotImplementedError
+def word_only_features() -> TfidfVectorizer:
+    return word_vectorizer()

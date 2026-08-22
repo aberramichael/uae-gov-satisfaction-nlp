@@ -1,63 +1,86 @@
 # Transformer Models for Predicting User Satisfaction from Arabic–English Reviews of UAE Government Digital Services
 
-## Overview
+Bilingual (Arabic and English) app store reviews of UAE government mobile applications are
+collected from Google Play and the Apple App Store, weakly labelled from star ratings, validated
+against an annotated reference sample, and classified with TF-IDF baselines and fine-tuned
+multilingual / Arabic transformers. A bilingual aspect lexicon plus BERTopic ranks the service
+aspects associated with dissatisfaction, and everything is reported by language, platform and
+entity with effect sizes alongside every test.
 
-This project analyses bilingual (Arabic and English) user reviews of United Arab Emirates
-government mobile applications to predict user satisfaction. Reviews are collected from public
-app stores, weakly labelled from star ratings, and classified with both classical baselines
-(TF-IDF with linear models) and multilingual transformer models. The pipeline covers data
-collection, cleaning and Arabic normalisation, weak supervision, human validation of labels,
-model training and comparison, aspect discovery with topic modelling, and segmented reporting
-by language, platform, and entity.
-
-## Setup
+## Setup (local)
 
 ```bash
-# From the repository root
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+python3.12 -m venv .venv
+source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+The transformer notebook (07) needs a GPU and its own requirements (`requirements-gpu.txt`);
+it is written to run on Google Colab, see below.
+
 ## Reproduce
 
-Run the notebooks in `notebooks/` in numerical order. Each stage writes its outputs to `data/`
-or `results/` for the next stage to consume.
+```bash
+scripts/run_all.sh                       # notebooks 02-06, 08-10 on this machine
+REPORT=path/to/Final_Report.docx scripts/run_all.sh   # ... and populate the report
+```
 
-1. `01_scrape_reviews.ipynb` — collect raw reviews from the app stores for the app list.
-2. `02_clean_normalise.ipynb` — clean text and apply Arabic normalisation for classical models.
-3. `03_eda.ipynb` — exploratory analysis: review length distribution and language split.
-4. `04_weak_labels.ipynb` — derive binary satisfaction labels from star ratings.
-5. `05_label_validation.ipynb` — validate weak labels against a gold set using per-language Cohen's kappa.
-6. `06_baselines_tfidf.ipynb` — train and evaluate TF-IDF classical baselines.
-7. `07_transformers.ipynb` — fine-tune multilingual and Arabic transformer models.
-8. `08_model_comparison.ipynb` — compare models with McNemar's test and effect size.
-9. `09_aspects_bertopic.ipynb` — discover and label review aspects with BERTopic.
-10. `10_segmentation.ipynb` — report performance segmented by language, platform, and entity.
+or open the notebooks in `notebooks/` and run them in numerical order. Each stage reads the
+output of the previous one from `data/` or `results/`.
 
-## Project Structure
+| # | Notebook | What it does | Writes |
+|---|---|---|---|
+| 01 | `01_scrape_reviews` | Documents the collection run (public endpoints, resumable) | `data/raw/reviews_dataset.csv` |
+| 02 | `02_clean_normalise` | Language detection, Arabic normalisation, the logged inclusion funnel | `data/interim/`, `data/processed/modelling_set.parquet` |
+| 03 | `03_eda` | Length bands, language / label balance, apps, time coverage | `results/tables/eda_*`, `results/figures/` |
+| 04 | `04_weak_labels` | Star → label check, 70/15/15 split stratified on label × language, leakage check | `data/processed/{train,val,test}.parquet` |
+| 05 | `05_label_validation` | 400-review annotated sample, Cohen's κ overall / per language / second pass | `table17_kappa.csv` |
+| 06 | `06_baselines_tfidf` | TF-IDF + LR / linear SVM / NB, per-language metrics | `results/predictions/tfidf_*_test.csv` |
+| 07 | `07_transformers` | **GPU.** XLM-R, mBERT (bilingual); AraBERT, MARBERT (Arabic) | `results/predictions/{xlmr,mbert,arabert,marbert}_test.csv` |
+| 08 | `08_model_comparison` | Tables 12-14, bootstrap CIs, McNemar, confusion matrix, ROC | `table12..14_*.csv`, `fig5`, `fig6` |
+| 09 | `09_aspects_bertopic` | Aspect risk ratios with BH adjustment (Table 15), optional BERTopic pass | `table15_aspects.csv` |
+| 10 | `10_segmentation` | Language comparison (Table 16), κ verdict, segment-level aspect rankings | `table16_*`, `segment_*` |
+
+Every statistic quoted in the report is also written to `results/metrics.json`;
+`scripts/fill_report.py` reads that file and the tables to populate the report document.
+
+### Running notebook 07 on Colab
+
+1. Upload `data/processed/train.parquet`, `val.parquet` and `test.parquet` to
+   `MyDrive/uae-gov-satisfaction-nlp/data/processed/` (or edit `DATA_DIR` in the notebook).
+2. Open `notebooks/07_transformers.ipynb` in Colab with a GPU runtime and run all cells.
+3. Copy the four `*_test.csv` files into `results/predictions/` and `transformer_runs.json`
+   into `results/tables/`, then run `scripts/run_all.sh --post-colab` (and the report script
+   if needed). Tables 12-14 and the RQ2 text fill themselves from those files.
+
+Set `SMOKE_TEST = True` in the notebook to check the code path on CPU in a couple of minutes.
+
+## Project structure
 
 ```
 uae-gov-satisfaction-nlp/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── .gitignore
+├── README.md, LICENSE, requirements.txt, requirements-gpu.txt
 ├── data/
-│   ├── raw/                # scraper output, never edited by hand
-│   ├── interim/            # partially processed data
-│   ├── processed/          # final modelling sets
-│   └── annotations/        # hand-labelled gold set and guidelines
-├── notebooks/              # numbered, run in order
-├── src/                    # reusable code imported by the notebooks
-├── models/                 # saved model artefacts (gitignored)
+│   ├── raw/                scraper output, never edited by hand
+│   ├── interim/            cleaned frame and funnel (regenerated, not committed)
+│   ├── processed/          modelling set and train/val/test partitions (regenerated)
+│   └── annotations/        400-review sample, completed labels, second pass
+├── notebooks/              01-10, run in order; legacy/ holds the scraper development notebook
+├── src/                    config, scraping, preprocessing, labelling, features, models,
+│                           evaluation, stats, aspects, io
+├── scripts/                run_all.sh, fill_report.py
 ├── results/
-│   ├── figures/            # confusion matrices, charts
-│   └── tables/             # metric tables, per-segment CSVs
-└── docs/
-    ├── data_dictionary.md
-    └── aspect_lexicon.md
+│   ├── tables/             every table in the report as CSV
+│   ├── figures/            every figure in the report as PNG
+│   ├── predictions/        per-model test predictions paired by review_id
+│   └── metrics.json
+└── docs/                   data_dictionary.md, aspect_lexicon.md
 ```
 
+## Notes
 
+- Review text is public store content; no reviewer identifiers are stored.
+- Random seed 42 throughout; exact duplicates are removed before the split so no text sits on
+  both sides of a partition.
+- Three-star reviews are kept in the raw file and excluded from the binary modelling set.

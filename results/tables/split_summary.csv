@@ -1,0 +1,4 @@
+split,n,Dissatisfied,Satisfied,Arabic,English
+train,34250,19032,15218,8308,25942
+val,7340,4079,3261,1780,5560
+test,7340,4079,3261,1781,5559

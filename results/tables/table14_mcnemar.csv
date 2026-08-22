@@ -1,0 +1,5 @@
+comparison,model_a,model_b,subset,status
+"XLM-RoBERTa vs best classical baseline, full test set",xlmr,tfidf_svm,full,awaiting notebook 07 output
+"XLM-RoBERTa vs best classical baseline, Arabic subset",xlmr,tfidf_svm,Arabic,awaiting notebook 07 output
+"XLM-RoBERTa vs multilingual BERT, full test set",xlmr,mbert,full,awaiting notebook 07 output
+"MARBERT vs AraBERT, Arabic subset",marbert,arabert,Arabic,awaiting notebook 07 output

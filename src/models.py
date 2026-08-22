@@ -1,45 +1,43 @@
-"""Model training and fine-tuning wrappers.
+"""Classical baseline models.
 
-Classical baseline:
-    TF-IDF features with a linear classifier, trained on cleaned text.
-
-Transformer models:
-    - XLM-RoBERTa  — multilingual, trained on the full Arabic+English set.
-    - mBERT        — multilingual, trained on the full Arabic+English set.
-    - AraBERT      — trained on the Arabic subset only.
-    - MARBERT      — trained on the Arabic subset only.
-    Transformers consume raw review text (no cleaning or Arabic normalisation).
+Each builder returns an sklearn Pipeline that takes clean_text and outputs a
+label, plus a score for the dissatisfied class for ROC curves.
 """
 
 from __future__ import annotations
 
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from sklearn.svm import LinearSVC
 
-def train_tfidf_baseline(X_train, y_train, **kwargs):
-    """Train a TF-IDF classical baseline classifier.
-
-    Args:
-        X_train: TF-IDF feature matrix for the training split (cleaned text).
-        y_train: Training labels.
-        **kwargs: Hyperparameters for the underlying classifier.
-
-    Returns:
-        The fitted classical model.
-    """
-    raise NotImplementedError
+from .config import RANDOM_SEED
+from .features import word_char_features, word_only_features
 
 
-def finetune_transformer(model_name: str, train_ds, val_ds, **kwargs):
-    """Fine-tune a transformer model for binary satisfaction classification.
+def build_baselines() -> dict[str, Pipeline]:
+    return {
+        "tfidf_lr": Pipeline([
+            ("features", word_char_features()),
+            ("clf", LogisticRegression(C=4.0, class_weight="balanced", max_iter=2000,
+                                       solver="liblinear", random_state=RANDOM_SEED)),
+        ]),
+        "tfidf_svm": Pipeline([
+            ("features", word_char_features()),
+            # calibrated so the SVM can also produce a probability for the ROC curve
+            ("clf", CalibratedClassifierCV(
+                LinearSVC(C=0.5, class_weight="balanced", random_state=RANDOM_SEED), cv=3)),
+        ]),
+        "tfidf_nb": Pipeline([
+            ("features", word_only_features()),
+            ("clf", MultinomialNB(alpha=0.3)),
+        ]),
+    }
 
-    Args:
-        model_name: Hugging Face model identifier or short name. Multilingual
-            models (XLM-RoBERTa, mBERT) train on the full set; Arabic-specific
-            models (AraBERT, MARBERT) train on the Arabic subset only.
-        train_ds: Training dataset of raw review text and labels.
-        val_ds: Validation dataset of raw review text and labels.
-        **kwargs: Training arguments (learning rate, epochs, batch size, etc.).
 
-    Returns:
-        The fine-tuned model and its training metadata.
-    """
-    raise NotImplementedError
+def positive_score(pipe: Pipeline, texts, positive_class: str):
+    """Probability of the positive (dissatisfied) class."""
+    proba = pipe.predict_proba(texts)
+    idx = list(pipe.classes_).index(positive_class)
+    return proba[:, idx]
