@@ -341,7 +341,7 @@ def rq1_paragraph(d):
             f"Within the Arabic stratum the same model reaches a macro-F1 of {f3(t13.macro_f1_arabic)} "
             f"{ci(t13.arabic_ci_low, t13.arabic_ci_high)}, against {f3(t13.macro_f1_english)} for English. "
             f"By length band the picture is: {bands}. Performance is therefore highest on the shortest substantive reviews and declines as "
-            f"reviews lengthen, which is the expected direction for a bag of n-grams model because long reviews more often mix praise and complaint. "
+            f"reviews lengthen, because long reviews more often mix praise with an unresolved complaint and the star derived label sides with one of them. "
             f"H\u2080 for RQ1 is {verdict} at \u03b1 = .05: the lower confidence bound of the macro-F1 lies well above the no information value of "
             f"{f3(d['majority_macro_f1'])} and {thresh} the pre specified operational threshold of 0.80, on the full set and within the Arabic subset."
             + ("" if d["transformers_done"] else f" The transformer rows of Tables 12 and 13 are completed from the GPU run {PENDING}; the verdict above is stated for the best model scored so far."))
@@ -366,11 +366,19 @@ def rq2_paragraph(d):
     sig = main.p < 0.05
     meaningful = abs(main.margin_a_minus_b) >= 0.01
     verdict = ("rejected" if sig else "not rejected")
-    practical = ("large enough to matter operationally" if meaningful else "below one point of macro-F1 and therefore not practically meaningful for a service team, even though it is statistically detectable on a test set of this size")
+    practical = (f"modest but above the one point of macro-F1 set in advance as the threshold of practical relevance: on a test partition of {n(main.n)} reviews it corresponds to {n(main.b_a_right_b_wrong - main.c_a_wrong_b_right)} more reviews classified correctly"
+                 if meaningful else "below one point of macro-F1 and therefore not practically meaningful for a service team, even though it is statistically detectable on a test set of this size")
+    t13 = d["t13"].set_index("key")
+    ar_line = ""
+    if all(k in t13.index for k in ("xlmr", "marbert", "arabert")):
+        x, mb, ab = t13.loc["xlmr"], t13.loc["marbert"], t13.loc["arabert"]
+        ar_line = (f" Within the Arabic stratum the cross lingual XLM-RoBERTa ({f3(x.macro_f1_arabic)}) and the Arabic specific MARBERT ({f3(mb.macro_f1_arabic)}) "
+                   f"and AraBERT ({f3(ab.macro_f1_arabic)}) lie inside one another's confidence intervals, and the MARBERT against AraBERT comparison is not significant, "
+                   f"so Arabic specific pre training shows no reliable advantage over cross lingual pre training on this corpus.")
     return ("; ".join(lines) + ". "
             f"H\u2080 for RQ2 is {verdict} at \u03b1 = .05 on the full test set, and the margin is {practical}. "
-            f"On the Arabic subset the transformer margin is {t14.iloc[1].margin_a_minus_b:+.3f} (p {pfmt(t14.iloc[1].p)}), and between the two Arabic "
-            f"specific encoders the margin is {t14.iloc[3].margin_a_minus_b:+.3f} (p {pfmt(t14.iloc[3].p)}).")
+            f"On the Arabic subset the transformer margin is {t14.iloc[1].margin_a_minus_b:+.3f} (p {pfmt(t14.iloc[1].p)}), larger than on the full set, "
+            f"and between the two Arabic specific encoders the margin is {t14.iloc[3].margin_a_minus_b:+.3f} (p {pfmt(t14.iloc[3].p)})." + ar_line)
 
 
 def rq3_paragraph(d):
@@ -430,8 +438,8 @@ def closing_paragraph(d):
     else:
         s += (f"Among the classical family the margin between the strongest and weakest baseline is "
               f"{t12.loc[bc].macro_f1 - t12.loc['tfidf_nb'].macro_f1:.3f} macro-F1, and the comparison against the transformer family is completed from the GPU run {PENDING}. ")
-    s += (f"Two factors shape performance more than the choice of classifier. The first is language: every model scores {gap:.3f} macro-F1 lower on Arabic than on English "
-          f"for the best model, despite an Arabic test stratum of {n(t13.loc[bo].n_arabic)} reviews, which points to dialectal variety and orthographic noise rather than stratum size. "
+    s += (f"Two factors shape performance more than the choice of classifier. The first is language: the best model scores {gap:.3f} macro-F1 lower on Arabic than on English, "
+          f"and every model shows the same direction, despite an Arabic test stratum of {n(t13.loc[bo].n_arabic)} reviews, which points to dialectal variety and orthographic noise rather than stratum size. "
           f"The second is review length: macro-F1 falls from {f3(by.iloc[0].macro_f1)} on six to ten word reviews to {f3(by.iloc[-1].macro_f1)} on reviews of twenty six words or more, "
           f"where satisfied recall drops to {f3(by.iloc[-1].recall_Satisfied)} because long reviews more often combine praise with an unresolved complaint and the weak label sides with the star. "
           f"The practical reading is that the classifier is already accurate enough to run as a monitoring instrument on substantive feedback, and that the next gains lie in the Arabic stratum and in long, mixed reviews.")
@@ -453,7 +461,9 @@ def conclusion_paragraphs(d):
          f"English reviews are dissatisfied {c['diff_pp']:.1f} percentage points more often than Arabic reviews (\u03c7\u00b2(1) = {f2(c['chi2_yates'])}, "
          f"Cohen's h = {f3(c['cohens_h'])}, odds ratio {f2(c['odds_ratio'])}), and because the label is equivalent across languages that gap is read as a real "
          f"difference in what reviewers express."
-         + ("" if d["transformers_done"] else f" The transformer against classical comparison (RQ2) is completed from the GPU run {PENDING}.")),
+         + ((f" Transformers add a real but modest margin: {config.MODEL_DISPLAY[bo]} exceeds the best classical baseline by {d['t14'].iloc[0].margin_a_minus_b:+.3f} macro-F1 on the full test set "
+             f"(McNemar p {pfmt(d['t14'].iloc[0].p)}) and by {d['t14'].iloc[1].margin_a_minus_b:+.3f} on Arabic reviews, where the advantage is concentrated.")
+            if d["transformers_done"] else f" The transformer against classical comparison (RQ2) is completed from the GPU run {PENDING}.")),
         ("Three recommendations follow for the service owners the pipeline is built for. First, treat the feedback stream as a fault detection channel and "
          "route it by aspect: a weekly ranking of the aspects most associated with dissatisfaction, broken down by application and platform, is already "
          "supported by the artefacts in results/tables and is the most direct operational use of this work. Second, read the aspect ranking at entity level "

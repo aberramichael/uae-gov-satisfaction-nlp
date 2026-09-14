@@ -6,8 +6,9 @@
 #   REPORT=/path/to/Final_Report.docx scripts/run_all.sh ...   # also populate the report
 set -euo pipefail
 cd "$(dirname "$0")/.."
-PY=${PY:-.venv/bin/python}
-NB="$PY -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600"
+PY=$(cd "$(dirname "${PY:-.venv/bin/python}")" && pwd)/$(basename "${PY:-.venv/bin/python}")
+JUPYTER="$(dirname "$PY")/jupyter"
+NB=("$JUPYTER" nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600)
 
 if [[ "${1:-}" == "--post-colab" ]]; then
   for f in xlmr mbert arabert marbert; do
@@ -20,10 +21,10 @@ fi
 
 for n in $ORDER; do
   echo "== notebooks/$n.ipynb"
-  (cd notebooks && $NB "$n.ipynb" >/dev/null)
+  (cd notebooks && "${NB[@]}" "$n.ipynb" >/dev/null)
 done
 
 if [[ -n "${REPORT:-}" ]]; then
-  $PY scripts/fill_report.py --src "$REPORT"
+  "$PY" scripts/fill_report.py --src "$REPORT"
 fi
 echo "done"

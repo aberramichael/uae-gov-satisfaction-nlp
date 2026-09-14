@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "capstone-nlp-core"
+version = "0.3.0"
+description = "Frozen bilingual (Arabic/English) preprocessing, aspect lexicon and statistics shared by the UAE government satisfaction thesis and the Mirsad platform."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = []
+
+[project.optional-dependencies]
+# The row-level functions (normalise, detect_language, tag_aspects,
+# label_from_stars) need nothing but the standard library, so a web service can
+# install the bare package. Frame-level and statistical helpers need these.
+frames = ["pandas>=2.2,<3", "numpy>=1.26,<2"]
+stats = ["pandas>=2.2,<3", "numpy>=1.26,<2", "scipy>=1.13,<2", "statsmodels>=0.14,<1", "scikit-learn>=1.5,<2"]
+dev = ["pytest>=8", "pandas>=2.2,<3", "numpy>=1.26,<2", "scipy>=1.13,<2", "statsmodels>=0.14,<1", "scikit-learn>=1.5,<2"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/capstone_nlp_core"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

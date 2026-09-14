@@ -1,0 +1,54 @@
+{
+  "xlmr": {
+    "hf_model": "xlm-roberta-base",
+    "scope": "bilingual",
+    "lr": 2e-05,
+    "max_len": 128,
+    "batch": 32,
+    "epochs_max": 3,
+    "val_macro_f1": 0.9227227857282931,
+    "test_macro_f1": 0.9272737237557649,
+    "n_train": 34250,
+    "n_test": 7340,
+    "device": "cuda"
+  },
+  "mbert": {
+    "hf_model": "bert-base-multilingual-cased",
+    "scope": "bilingual",
+    "lr": 3e-05,
+    "max_len": 128,
+    "batch": 32,
+    "epochs_max": 3,
+    "val_macro_f1": 0.9125552543298383,
+    "test_macro_f1": 0.9184493208138472,
+    "n_train": 34250,
+    "n_test": 7340,
+    "device": "cuda"
+  },
+  "arabert": {
+    "hf_model": "aubmindlab/bert-base-arabertv2",
+    "scope": "arabic",
+    "lr": 3e-05,
+    "max_len": 128,
+    "batch": 32,
+    "epochs_max": 3,
+    "val_macro_f1": 0.9085843266363862,
+    "test_macro_f1": 0.9078185624242796,
+    "n_train": 8308,
+    "n_test": 1781,
+    "device": "cuda"
+  },
+  "marbert": {
+    "hf_model": "UBC-NLP/MARBERT",
+    "scope": "arabic",
+    "lr": 2e-05,
+    "max_len": 128,
+    "batch": 32,
+    "epochs_max": 3,
+    "val_macro_f1": 0.914423076923077,
+    "test_macro_f1": 0.9145084982680891,
+    "n_train": 8308,
+    "n_test": 1781,
+    "device": "cuda"
+  }
+}
