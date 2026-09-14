@@ -1,0 +1,6 @@
+step,rows_before,rows_after,removed,retention_pct
+Remove empty review text,74412,74411,1,100.0
+Remove exact duplicate reviews,74411,74248,163,99.8
+Keep substantive reviews (>= 6 words),74248,52640,21608,70.7
+Remove neutral band (3-star) and missing stars,52640,49217,3423,66.1
+Restrict to Arabic or English (drop mixed / other),49217,48930,287,65.8

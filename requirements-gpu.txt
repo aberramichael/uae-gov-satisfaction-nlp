@@ -1,0 +1,9 @@
+# GPU environment for notebook 07 (Colab installs these itself) and the optional BERTopic pass in notebook 09.
+torch>=2.2
+transformers>=4.46
+sentencepiece
+protobuf
+accelerate
+datasets
+bertopic==0.16.4
+sentence-transformers

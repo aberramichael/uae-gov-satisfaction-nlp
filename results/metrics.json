@@ -1,0 +1,1267 @@
+{
+  "dataset": {
+    "raw_rows": 74412,
+    "apps": 136,
+    "modelling_rows": 48930,
+    "funnel": [
+      {
+        "step": "Remove empty review text",
+        "rows_before": 74412,
+        "rows_after": 74411,
+        "removed": 1,
+        "retention_pct": 100.0
+      },
+      {
+        "step": "Remove exact duplicate reviews",
+        "rows_before": 74411,
+        "rows_after": 74248,
+        "removed": 163,
+        "retention_pct": 99.8
+      },
+      {
+        "step": "Keep substantive reviews (>= 6 words)",
+        "rows_before": 74248,
+        "rows_after": 52640,
+        "removed": 21608,
+        "retention_pct": 70.7
+      },
+      {
+        "step": "Remove neutral band (3-star) and missing stars",
+        "rows_before": 52640,
+        "rows_after": 49217,
+        "removed": 3423,
+        "retention_pct": 66.1
+      },
+      {
+        "step": "Restrict to Arabic or English (drop mixed / other)",
+        "rows_before": 49217,
+        "rows_after": 48930,
+        "removed": 287,
+        "retention_pct": 65.8
+      }
+    ],
+    "language_counts_raw": {
+      "English": 54215,
+      "Arabic": 19731,
+      "mixed": 398,
+      "unknown": 68
+    },
+    "language_counts_modelling": {
+      "English": 37061,
+      "Arabic": 11869
+    },
+    "label_by_language": {
+      "Dissatisfied": {
+        "Arabic": 5045,
+        "English": 22145
+      },
+      "Satisfied": {
+        "Arabic": 6824,
+        "English": 14916
+      }
+    },
+    "date_min": "2010-04-02",
+    "date_max": "2026-07-19"
+  },
+  "eda": {
+    "word_count_mean": 15.210812772133528,
+    "word_count_median": 9.0,
+    "length_bands": [
+      {
+        "length_band": "0-2",
+        "n": 5665,
+        "aspect_carrying_pct": 8.8,
+        "share_pct": 7.6
+      },
+      {
+        "length_band": "3-5",
+        "n": 16107,
+        "aspect_carrying_pct": 25.7,
+        "share_pct": 21.6
+      },
+      {
+        "length_band": "6-10",
+        "n": 18449,
+        "aspect_carrying_pct": 40.1,
+        "share_pct": 24.8
+      },
+      {
+        "length_band": "11-25",
+        "n": 21787,
+        "aspect_carrying_pct": 58.8,
+        "share_pct": 29.3
+      },
+      {
+        "length_band": "26+",
+        "n": 12404,
+        "aspect_carrying_pct": 78.6,
+        "share_pct": 16.7
+      }
+    ],
+    "arabic_survival": [
+      {
+        "min_words": 1,
+        "n": 74411,
+        "Arabic": 19731,
+        "English": 54215,
+        "arabic_share_pct": 26.5
+      },
+      {
+        "min_words": 3,
+        "n": 68747,
+        "Arabic": 17700,
+        "English": 50642,
+        "arabic_share_pct": 25.7
+      },
+      {
+        "min_words": 5,
+        "n": 58143,
+        "Arabic": 14155,
+        "English": 43650,
+        "arabic_share_pct": 24.3
+      },
+      {
+        "min_words": 6,
+        "n": 52640,
+        "Arabic": 12526,
+        "English": 39807,
+        "arabic_share_pct": 23.8
+      },
+      {
+        "min_words": 8,
+        "n": 43720,
+        "Arabic": 9870,
+        "English": 33590,
+        "arabic_share_pct": 22.6
+      },
+      {
+        "min_words": 10,
+        "n": 36960,
+        "Arabic": 7918,
+        "English": 28823,
+        "arabic_share_pct": 21.4
+      }
+    ],
+    "platform_by_language": {
+      "Arabic": {
+        "App Store": 2197,
+        "Google Play": 9672
+      },
+      "English": {
+        "App Store": 7012,
+        "Google Play": 30049
+      }
+    },
+    "n_apps_modelling": 134,
+    "aspect_carrying_share_modelling": 0.5651951767831597,
+    "year_counts": {
+      "2010": 22,
+      "2011": 12,
+      "2012": 38,
+      "2013": 258,
+      "2014": 1238,
+      "2015": 1759,
+      "2016": 2393,
+      "2017": 2116,
+      "2018": 1802,
+      "2019": 2904,
+      "2020": 4155,
+      "2021": 5636,
+      "2022": 4185,
+      "2023": 5164,
+      "2024": 6350,
+      "2025": 6866,
+      "2026": 4032
+    }
+  },
+  "split": {
+    "summary": [
+      {
+        "split": "train",
+        "n": 34250,
+        "Dissatisfied": 19032,
+        "Satisfied": 15218,
+        "Arabic": 8308,
+        "English": 25942
+      },
+      {
+        "split": "val",
+        "n": 7340,
+        "Dissatisfied": 4079,
+        "Satisfied": 3261,
+        "Arabic": 1780,
+        "English": 5560
+      },
+      {
+        "split": "test",
+        "n": 7340,
+        "Dissatisfied": 4079,
+        "Satisfied": 3261,
+        "Arabic": 1781,
+        "English": 5559
+      }
+    ],
+    "leakage": {
+      "train-val_id_overlap": 0,
+      "train-val_text_overlap": 0,
+      "train-test_id_overlap": 0,
+      "train-test_text_overlap": 0,
+      "val-test_id_overlap": 0,
+      "val-test_text_overlap": 0
+    },
+    "seed": 42
+  },
+  "baselines": {
+    "tfidf_lr": {
+      "n": 7340,
+      "macro_f1": 0.908337750680523,
+      "accuracy_secondary": 0.9098092643051771,
+      "precision_Dissatisfied": 0.9076592698639943,
+      "recall_Dissatisfied": 0.9325815150772249,
+      "f1_Dissatisfied": 0.9199516324062877,
+      "support_Dissatisfied": 4079,
+      "precision_Satisfied": 0.9126706891076533,
+      "recall_Satisfied": 0.8813247470101196,
+      "f1_Satisfied": 0.8967238689547582,
+      "support_Satisfied": 3261,
+      "auc": 0.9604956359071778
+    },
+    "tfidf_svm": {
+      "n": 7340,
+      "macro_f1": 0.9107241338054112,
+      "accuracy_secondary": 0.9123978201634877,
+      "precision_Dissatisfied": 0.9027191748710736,
+      "recall_Dissatisfied": 0.9441039470458445,
+      "f1_Dissatisfied": 0.922947872977831,
+      "support_Dissatisfied": 4079,
+      "precision_Satisfied": 0.9258295380611581,
+      "recall_Satisfied": 0.8727384237963814,
+      "f1_Satisfied": 0.8985003946329914,
+      "support_Satisfied": 3261,
+      "auc": 0.9605385630125174
+    },
+    "tfidf_nb": {
+      "n": 7340,
+      "macro_f1": 0.8904034162011631,
+      "accuracy_secondary": 0.8930517711171662,
+      "precision_Dissatisfied": 0.8741481144934121,
+      "recall_Dissatisfied": 0.9433684726648689,
+      "f1_Dissatisfied": 0.9074401603584483,
+      "support_Dissatisfied": 4079,
+      "precision_Satisfied": 0.9213750850918992,
+      "recall_Satisfied": 0.8301134621281815,
+      "f1_Satisfied": 0.8733666720438781,
+      "support_Satisfied": 3261,
+      "auc": 0.9447828869553396
+    }
+  },
+  "kappa": {
+    "rows": [
+      {
+        "stratum": "English",
+        "n": 192,
+        "observed_agreement": 0.9270833333333334,
+        "kappa": 0.8536585365853658,
+        "ci_low": 0.7781116247217942,
+        "ci_high": 0.9237224645693773,
+        "band": "Almost perfect"
+      },
+      {
+        "stratum": "Arabic",
+        "n": 193,
+        "observed_agreement": 0.9378238341968912,
+        "kappa": 0.8757110657937104,
+        "ci_low": 0.8035991644796744,
+        "ci_high": 0.9378021269738962,
+        "band": "Almost perfect"
+      },
+      {
+        "stratum": "Overall",
+        "n": 385,
+        "observed_agreement": 0.9324675324675324,
+        "kappa": 0.8647955048895132,
+        "ci_low": 0.812886894737897,
+        "ci_high": 0.9117063603173734,
+        "band": "Almost perfect"
+      },
+      {
+        "stratum": "Intra-annotator (second pass)",
+        "n": 76,
+        "observed_agreement": 0.9868421052631579,
+        "kappa": 0.9736842105263158,
+        "ci_low": 0.9194915254237288,
+        "ci_high": 1.0,
+        "band": "Almost perfect"
+      }
+    ],
+    "excluded_unclear": 15
+  },
+  "comparison": {
+    "available": [
+      "tfidf_lr",
+      "tfidf_svm",
+      "tfidf_nb",
+      "xlmr",
+      "mbert",
+      "arabert",
+      "marbert"
+    ],
+    "missing": [],
+    "best_classical": "tfidf_svm",
+    "best_overall": "xlmr",
+    "table12": [
+      {
+        "key": "tfidf_lr",
+        "model": "TF-IDF + logistic regression",
+        "status": "scored",
+        "n_test": 7340,
+        "macro_f1": 0.908337750680523,
+        "ci_low": 0.9016965066171176,
+        "ci_high": 0.9148607517275816,
+        "recall_dissatisfied": 0.9325815150772249,
+        "recall_satisfied": 0.8813247470101196,
+        "precision_dissatisfied": 0.9076592698639943,
+        "auc": 0.9604956359071778,
+        "accuracy_secondary": 0.9098092643051771
+      },
+      {
+        "key": "tfidf_svm",
+        "model": "TF-IDF + linear SVM",
+        "status": "scored",
+        "n_test": 7340,
+        "macro_f1": 0.9107241338054112,
+        "ci_low": 0.9042414046669157,
+        "ci_high": 0.9171415426675746,
+        "recall_dissatisfied": 0.9441039470458445,
+        "recall_satisfied": 0.8727384237963814,
+        "precision_dissatisfied": 0.9027191748710736,
+        "auc": 0.9605385630125174,
+        "accuracy_secondary": 0.9123978201634877
+      },
+      {
+        "key": "tfidf_nb",
+        "model": "TF-IDF + multinomial naive Bayes",
+        "status": "scored",
+        "n_test": 7340,
+        "macro_f1": 0.8904034162011631,
+        "ci_low": 0.8831612651060242,
+        "ci_high": 0.8976272863631762,
+        "recall_dissatisfied": 0.9433684726648689,
+        "recall_satisfied": 0.8301134621281815,
+        "precision_dissatisfied": 0.8741481144934121,
+        "auc": 0.9447828869553396,
+        "accuracy_secondary": 0.8930517711171662
+      },
+      {
+        "key": "xlmr",
+        "model": "XLM-RoBERTa (base)",
+        "status": "scored",
+        "n_test": 7340,
+        "macro_f1": 0.9272737237557649,
+        "ci_low": 0.9213176455152938,
+        "ci_high": 0.9329794021184943,
+        "recall_dissatisfied": 0.9509683746016181,
+        "recall_satisfied": 0.9003373198405397,
+        "precision_dissatisfied": 0.9226926736441484,
+        "auc": 0.9727323794193774,
+        "accuracy_secondary": 0.9284741144414169
+      },
+      {
+        "key": "mbert",
+        "model": "Multilingual BERT",
+        "status": "scored",
+        "n_test": 7340,
+        "macro_f1": 0.9184493208138472,
+        "ci_low": 0.9119633267457905,
+        "ci_high": 0.924585626989474,
+        "recall_dissatisfied": 0.9529296396175533,
+        "recall_satisfied": 0.8788715118061944,
+        "precision_dissatisfied": 0.907753386268099,
+        "auc": 0.9686652053407936,
+        "accuracy_secondary": 0.9200272479564032
+      },
+      {
+        "key": "arabert",
+        "model": "AraBERT",
+        "status": "scored",
+        "n_test": 1781,
+        "macro_f1": 0.9078185624242796,
+        "ci_low": 0.8943969951580752,
+        "ci_high": 0.9214688615809131,
+        "recall_dissatisfied": 0.9339498018494056,
+        "recall_satisfied": 0.890625,
+        "precision_dissatisfied": 0.8632478632478633,
+        "auc": 0.9638594472424042,
+        "accuracy_secondary": 0.9090398652442448
+      },
+      {
+        "key": "marbert",
+        "model": "MARBERT",
+        "status": "scored",
+        "n_test": 1781,
+        "macro_f1": 0.9145084982680891,
+        "ci_low": 0.9008502512744045,
+        "ci_high": 0.9273121209514351,
+        "recall_dissatisfied": 0.9339498018494056,
+        "recall_satisfied": 0.90234375,
+        "precision_dissatisfied": 0.8760842627013631,
+        "auc": 0.9651340096598414,
+        "accuracy_secondary": 0.9157776530039303
+      }
+    ],
+    "table13": [
+      {
+        "key": "tfidf_lr",
+        "model": "TF-IDF + logistic regression",
+        "macro_f1_english": 0.9144997608891359,
+        "n_english": 5559,
+        "macro_f1_arabic": 0.8798053527980535,
+        "arabic_ci_low": 0.8644571494753829,
+        "arabic_ci_high": 0.8954150529222813,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": 0.034694408091082374
+      },
+      {
+        "key": "tfidf_svm",
+        "model": "TF-IDF + linear SVM",
+        "macro_f1_english": 0.9167807134847141,
+        "n_english": 5559,
+        "macro_f1_arabic": 0.8831364829396325,
+        "arabic_ci_low": 0.8676103110738579,
+        "arabic_ci_high": 0.8986535254113732,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": 0.03364423054508159
+      },
+      {
+        "key": "tfidf_nb",
+        "model": "TF-IDF + multinomial naive Bayes",
+        "macro_f1_english": 0.9002073560415857,
+        "n_english": 5559,
+        "macro_f1_arabic": 0.8424178909617139,
+        "arabic_ci_low": 0.8240380681310778,
+        "arabic_ci_high": 0.8599918125965322,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": 0.057789465079871816
+      },
+      {
+        "key": "xlmr",
+        "model": "XLM-RoBERTa (base)",
+        "macro_f1_english": 0.931253635252853,
+        "n_english": 5559,
+        "macro_f1_arabic": 0.9085710178853774,
+        "arabic_ci_low": 0.8942886993209579,
+        "arabic_ci_high": 0.922156557450875,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": 0.022682617367475566
+      },
+      {
+        "key": "mbert",
+        "model": "Multilingual BERT",
+        "macro_f1_english": 0.9255007298393909,
+        "n_english": 5559,
+        "macro_f1_arabic": 0.8891423591860202,
+        "arabic_ci_low": 0.8742066793480828,
+        "arabic_ci_high": 0.9040276455201695,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": 0.036358370653370664
+      },
+      {
+        "key": "arabert",
+        "model": "AraBERT",
+        "macro_f1_english": NaN,
+        "n_english": 0,
+        "macro_f1_arabic": 0.9078185624242796,
+        "arabic_ci_low": 0.8943969951580752,
+        "arabic_ci_high": 0.9214688615809131,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": NaN
+      },
+      {
+        "key": "marbert",
+        "model": "MARBERT",
+        "macro_f1_english": NaN,
+        "n_english": 0,
+        "macro_f1_arabic": 0.9145084982680891,
+        "arabic_ci_low": 0.9008502512744045,
+        "arabic_ci_high": 0.9273121209514351,
+        "n_arabic": 1781,
+        "gap_en_minus_ar": NaN
+      }
+    ],
+    "table14": [
+      {
+        "comparison": "XLM-RoBERTa vs best classical baseline, full test set",
+        "model_a": "xlmr",
+        "model_b": "tfidf_svm",
+        "subset": "full",
+        "status": "scored",
+        "n": 7340,
+        "b_a_right_b_wrong": 273,
+        "c_a_wrong_b_right": 155,
+        "chi2": 31.983644859813083,
+        "p": 1.554760763815228e-08,
+        "p_exact": 1.2668075310150455e-08,
+        "macro_f1_a": 0.9272737237557649,
+        "macro_f1_b": 0.9107241338054112,
+        "margin_a_minus_b": 0.016549589950353716,
+        "discordant_odds_ratio": 1.761290322580645
+      },
+      {
+        "comparison": "XLM-RoBERTa vs best classical baseline, Arabic subset",
+        "model_a": "xlmr",
+        "model_b": "tfidf_svm",
+        "subset": "Arabic",
+        "status": "scored",
+        "n": 1781,
+        "b_a_right_b_wrong": 87,
+        "c_a_wrong_b_right": 43,
+        "chi2": 14.223076923076922,
+        "p": 0.00016236708451911782,
+        "p_exact": 0.00014200427579925745,
+        "macro_f1_a": 0.9085710178853774,
+        "macro_f1_b": 0.8831364829396325,
+        "margin_a_minus_b": 0.02543453494574488,
+        "discordant_odds_ratio": 2.0232558139534884
+      },
+      {
+        "comparison": "XLM-RoBERTa vs multilingual BERT, full test set",
+        "model_a": "xlmr",
+        "model_b": "mbert",
+        "subset": "full",
+        "status": "scored",
+        "n": 7340,
+        "b_a_right_b_wrong": 181,
+        "c_a_wrong_b_right": 119,
+        "chi2": 12.403333333333334,
+        "p": 0.00042856814449695503,
+        "p_exact": 0.0004106214129933652,
+        "macro_f1_a": 0.9272737237557649,
+        "macro_f1_b": 0.9184493208138472,
+        "margin_a_minus_b": 0.008824402941917664,
+        "discordant_odds_ratio": 1.5210084033613445
+      },
+      {
+        "comparison": "MARBERT vs AraBERT, Arabic subset",
+        "model_a": "marbert",
+        "model_b": "arabert",
+        "subset": "Arabic",
+        "status": "scored",
+        "n": 1781,
+        "b_a_right_b_wrong": 42,
+        "c_a_wrong_b_right": 30,
+        "chi2": 1.6805555555555556,
+        "p": 0.1948506486088658,
+        "p_exact": 0.1945051658673991,
+        "macro_f1_a": 0.9145084982680891,
+        "macro_f1_b": 0.9078185624242796,
+        "margin_a_minus_b": 0.0066899358438095025,
+        "discordant_odds_ratio": 1.4
+      }
+    ],
+    "rq1": {
+      "model": "xlmr",
+      "majority_rate": 0.5557220708446866,
+      "correct": 6815,
+      "n": 7340,
+      "accuracy": 0.9284741144414169,
+      "baseline_rate": 0.5557220708446866,
+      "p": 0.0,
+      "macro_f1": 0.9272737237557649,
+      "ci_low": 0.9213176455152938,
+      "ci_high": 0.9329794021184943,
+      "recall_dissatisfied": 0.9509683746016181,
+      "recall_satisfied": 0.9003373198405397,
+      "auc": 0.9727323794193774,
+      "by_length_band": [
+        {
+          "model": "XLM-RoBERTa (base)",
+          "length_band": "6-10",
+          "n": 2582,
+          "macro_f1": 0.9319031981015926,
+          "recall_Dissatisfied": 0.9336538461538462,
+          "recall_Satisfied": 0.9345006485084306,
+          "accuracy_secondary": 0.9341595662277304
+        },
+        {
+          "model": "XLM-RoBERTa (base)",
+          "length_band": "11-25",
+          "n": 2982,
+          "macro_f1": 0.9179608559659509,
+          "recall_Dissatisfied": 0.9544924154025671,
+          "recall_Satisfied": 0.8746056782334385,
+          "accuracy_secondary": 0.920523138832998
+        },
+        {
+          "model": "XLM-RoBERTa (base)",
+          "length_band": "26+",
+          "n": 1776,
+          "macro_f1": 0.9115440785419427,
+          "recall_Dissatisfied": 0.96,
+          "recall_Satisfied": 0.8558758314855875,
+          "accuracy_secondary": 0.9335585585585585
+        }
+      ]
+    },
+    "auc": {
+      "tfidf_lr": 0.9604956359071778,
+      "tfidf_svm": 0.9605385630125174,
+      "tfidf_nb": 0.9447828869553396,
+      "xlmr": 0.9727323794193774,
+      "mbert": 0.9686652053407936,
+      "arabert": 0.9638594472424042,
+      "marbert": 0.9651340096598414
+    },
+    "confusion": {
+      "pred_Dissatisfied": {
+        "true_Dissatisfied": 3879,
+        "true_Satisfied": 325
+      },
+      "pred_Satisfied": {
+        "true_Dissatisfied": 200,
+        "true_Satisfied": 2936
+      }
+    }
+  },
+  "aspects": {
+    "table15": [
+      {
+        "rank": 1,
+        "aspect": "performance",
+        "n_mentions": 5949,
+        "pct_dissatisfied_mentioning": 19.757263699889666,
+        "pct_satisfied_mentioning": 2.6540938362465503,
+        "risk_ratio": 7.44407127964647,
+        "rr_ci_low": 6.844352252876783,
+        "rr_ci_high": 8.096339166816845,
+        "chi2": 3307.245849959937,
+        "p": 0.0,
+        "p_adj": 0.0,
+        "significant": true,
+        "aspect_display": "Performance / stability"
+      },
+      {
+        "rank": 2,
+        "aspect": "login",
+        "n_mentions": 4663,
+        "pct_dissatisfied_mentioning": 15.259286502390584,
+        "pct_satisfied_mentioning": 2.364305427782889,
+        "risk_ratio": 6.454025069299052,
+        "rr_ci_low": 5.899130043478872,
+        "rr_ci_high": 7.061115670977126,
+        "chi2": 2328.4185203998013,
+        "p": 0.0,
+        "p_adj": 0.0,
+        "significant": true,
+        "aspect_display": "Login / authentication"
+      },
+      {
+        "rank": 3,
+        "aspect": "registration",
+        "n_mentions": 2550,
+        "pct_dissatisfied_mentioning": 8.021331371827877,
+        "pct_satisfied_mentioning": 1.6973321067157314,
+        "risk_ratio": 4.725846721505096,
+        "rr_ci_low": 4.2383310259890585,
+        "rr_ci_high": 5.269439101904194,
+        "chi2": 976.7603348532483,
+        "p": 2.022044804239765e-214,
+        "p_adj": 4.04408960847953e-214,
+        "significant": true,
+        "aspect_display": "Registration"
+      },
+      {
+        "rank": 4,
+        "aspect": "verification",
+        "n_mentions": 2074,
+        "pct_dissatisfied_mentioning": 6.031629275468922,
+        "pct_satisfied_mentioning": 1.996320147194112,
+        "risk_ratio": 3.021373743057474,
+        "rr_ci_low": 2.722153427427681,
+        "rr_ci_high": 3.3534844888825246,
+        "chi2": 483.65122629017645,
+        "p": 3.4296609468928187e-107,
+        "p_adj": 4.899515638418313e-107,
+        "significant": true,
+        "aspect_display": "Verification"
+      },
+      {
+        "rank": 5,
+        "aspect": "notifications",
+        "n_mentions": 956,
+        "pct_dissatisfied_mentioning": 2.6553880102979037,
+        "pct_satisfied_mentioning": 1.076356945722171,
+        "risk_ratio": 2.46701433093489,
+        "rr_ci_low": 2.131132097375326,
+        "rr_ci_high": 2.855834097066886,
+        "chi2": 156.4162353767155,
+        "p": 6.866124946628087e-36,
+        "p_adj": 8.582656183285109e-36,
+        "significant": true,
+        "aspect_display": "Notifications"
+      },
+      {
+        "rank": 6,
+        "aspect": "update",
+        "n_mentions": 6212,
+        "pct_dissatisfied_mentioning": 17.212210371460095,
+        "pct_satisfied_mentioning": 7.046918123275068,
+        "risk_ratio": 2.442516014853411,
+        "rr_ci_low": 2.3121116731527978,
+        "rr_ci_high": 2.5802752315506896,
+        "chi2": 1125.3500194087637,
+        "p": 1.021549380495037e-246,
+        "p_adj": 2.5538734512375923e-246,
+        "significant": true,
+        "aspect_display": "Updates"
+      },
+      {
+        "rank": 7,
+        "aspect": "payment",
+        "n_mentions": 5598,
+        "pct_dissatisfied_mentioning": 15.123207061419638,
+        "pct_satisfied_mentioning": 6.835326586936523,
+        "risk_ratio": 2.212506874261527,
+        "rr_ci_low": 2.0907961211955253,
+        "rr_ci_high": 2.341302731064675,
+        "chi2": 818.1923728176154,
+        "p": 5.980904085465284e-180,
+        "p_adj": 9.968173475775473e-180,
+        "significant": true,
+        "aspect_display": "Payment"
+      },
+      {
+        "rank": 8,
+        "aspect": "language",
+        "n_mentions": 645,
+        "pct_dissatisfied_mentioning": 1.2541375505700625,
+        "pct_satisfied_mentioning": 1.3983440662373505,
+        "risk_ratio": 0.896873366756354,
+        "rr_ci_low": 0.7691931415983424,
+        "rr_ci_high": 1.0457475405012255,
+        "chi2": 1.8219983712706882,
+        "p": 0.17707558918043254,
+        "p_adj": 0.17707558918043254,
+        "significant": false,
+        "aspect_display": "Language"
+      },
+      {
+        "rank": 9,
+        "aspect": "support",
+        "n_mentions": 4720,
+        "pct_dissatisfied_mentioning": 8.275101140125047,
+        "pct_satisfied_mentioning": 11.361545538178474,
+        "risk_ratio": 0.7283429100660668,
+        "rr_ci_low": 0.689872633427262,
+        "rr_ci_high": 0.7689584554297864,
+        "chi2": 131.68394666650732,
+        "p": 1.754406903323641e-30,
+        "p_adj": 1.9493410036929343e-30,
+        "significant": true,
+        "aspect_display": "Customer support"
+      },
+      {
+        "rank": 10,
+        "aspect": "usability",
+        "n_mentions": 6213,
+        "pct_dissatisfied_mentioning": 7.098197866862817,
+        "pct_satisfied_mentioning": 19.70101195952162,
+        "risk_ratio": 0.3602961046593454,
+        "rr_ci_low": 0.34248806808251886,
+        "rr_ci_high": 0.37903008930933274,
+        "chi2": 1729.7830186418341,
+        "p": 0.0,
+        "p_adj": 0.0,
+        "significant": true,
+        "aspect_display": "Usability"
+      }
+    ],
+    "top3_by_rr": [
+      "performance",
+      "login",
+      "registration"
+    ],
+    "share_dissatisfied_tagged": 0.6642147848473704,
+    "share_top3_among_tagged_dissatisfied": 0.5426356589147286,
+    "mention_share_dissatisfied": {
+      "performance": 19.6,
+      "update": 17.1,
+      "login": 15.2,
+      "payment": 15.0,
+      "support": 8.2,
+      "registration": 8.0,
+      "usability": 7.0,
+      "verification": 6.0,
+      "notifications": 2.6,
+      "language": 1.2
+    }
+  },
+  "segmentation": {
+    "table16": {
+      "rate_a": 0.5975283991257656,
+      "rate_b": 0.4250568708400034,
+      "n_a": 37061,
+      "n_b": 11869,
+      "diff_pp": 17.247152828576223,
+      "diff_ci_low_pp": 16.22721711030419,
+      "diff_ci_high_pp": 18.267088546848257,
+      "chi2_yates": 1082.4115342051323,
+      "p": 2.1961668043418114e-237,
+      "phi": 0.1487814098340229,
+      "cohens_h": 0.34676859093191137,
+      "odds_ratio": 2.008173156528226,
+      "n": 48930,
+      "rows": [
+        {
+          "statistic": "Dissatisfied share, English",
+          "value": "59.8%",
+          "basis": "22,145 / 37,061"
+        },
+        {
+          "statistic": "Dissatisfied share, Arabic",
+          "value": "42.5%",
+          "basis": "5,045 / 11,869"
+        },
+        {
+          "statistic": "Difference (95% CI)",
+          "value": "17.2 pp",
+          "basis": "[16.2, 18.3]"
+        },
+        {
+          "statistic": "Pearson chi-square (df = 1)",
+          "value": "1082.41",
+          "basis": "p < .001"
+        },
+        {
+          "statistic": "Phi",
+          "value": "0.149",
+          "basis": ""
+        },
+        {
+          "statistic": "Cohen's h",
+          "value": "0.347",
+          "basis": ""
+        },
+        {
+          "statistic": "Odds ratio",
+          "value": "2.01",
+          "basis": ""
+        }
+      ]
+    },
+    "rq4b": {
+      "overlap": true,
+      "same_band": true,
+      "verdict": "equivalent",
+      "kappa_english": 0.8536585365853658,
+      "kappa_arabic": 0.8757110657937104
+    },
+    "top_aspect_per_segment": [
+      {
+        "segment_type": "language",
+        "segment": "Arabic",
+        "n": 11869,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 7.009063879628796
+      },
+      {
+        "segment_type": "language",
+        "segment": "English",
+        "n": 37061,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 7.063751150633066
+      },
+      {
+        "segment_type": "platform",
+        "segment": "Google Play",
+        "n": 39721,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 7.3107018074050965
+      },
+      {
+        "segment_type": "platform",
+        "segment": "App Store",
+        "n": 9209,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 7.8003739203707605
+      },
+      {
+        "segment_type": "entity",
+        "segment": "RTA Dubai",
+        "n": 5352,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 12.872324526287699
+      },
+      {
+        "segment_type": "entity",
+        "segment": "RTA Smart Drive",
+        "n": 5121,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 5.799679487179487
+      },
+      {
+        "segment_type": "entity",
+        "segment": "UAE PASS",
+        "n": 4819,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 3.7870431536417124
+      },
+      {
+        "segment_type": "entity",
+        "segment": "UAEICP",
+        "n": 3280,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 10.48309424780013
+      },
+      {
+        "segment_type": "entity",
+        "segment": "MOHRE",
+        "n": 2739,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 5.455223044160502
+      },
+      {
+        "segment_type": "entity",
+        "segment": "MOI UAE",
+        "n": 2531,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 6.567947770386795
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Dubai Police",
+        "n": 2202,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 13.249277038750721
+      },
+      {
+        "segment_type": "entity",
+        "segment": "S'hail",
+        "n": 1404,
+        "aspect": "payment",
+        "overall_rank": 7,
+        "risk_ratio": 6.127033307513556
+      },
+      {
+        "segment_type": "entity",
+        "segment": "TAMM",
+        "n": 1204,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 16.5
+      },
+      {
+        "segment_type": "entity",
+        "segment": "DubaiNow",
+        "n": 1149,
+        "aspect": "verification",
+        "overall_rank": 4,
+        "risk_ratio": 8.37696335078534
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Dubai Health (DAHC)",
+        "n": 1133,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 7.858646616541353
+      },
+      {
+        "segment_type": "entity",
+        "segment": "nol Pay",
+        "n": 1073,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 9.12
+      },
+      {
+        "segment_type": "entity",
+        "segment": "AWQAF UAE",
+        "n": 1022,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 2.931318681318681
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Esaad Card",
+        "n": 978,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 3.451025056947608
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Smart Salik",
+        "n": 964,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 6.800000000000001
+      },
+      {
+        "segment_type": "entity",
+        "segment": "DEWA",
+        "n": 800,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 9.957855822550831
+      },
+      {
+        "segment_type": "entity",
+        "segment": "SEHA",
+        "n": 781,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 5.580093312597201
+      },
+      {
+        "segment_type": "entity",
+        "segment": "EMX Express",
+        "n": 740,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 11.633663366336634
+      },
+      {
+        "segment_type": "entity",
+        "segment": "SEWA",
+        "n": 730,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 6.575916230366492
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Parkin",
+        "n": 707,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 6.966074313408725
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Etihad WE (FEWA)",
+        "n": 696,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 6.206148282097649
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Darbi (ITC)",
+        "n": 694,
+        "aspect": "login",
+        "overall_rank": 2,
+        "risk_ratio": 3.89237668161435
+      },
+      {
+        "segment_type": "entity",
+        "segment": "TAQA Distribution AD",
+        "n": 606,
+        "aspect": "registration",
+        "overall_rank": 3,
+        "risk_ratio": 13.486552567237164
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Emirates Red Crescent",
+        "n": 538,
+        "aspect": "performance",
+        "overall_rank": 1,
+        "risk_ratio": 9.450000000000001
+      }
+    ],
+    "divergences": [
+      {
+        "segment_type": "entity",
+        "segment": "TAQA Distribution AD",
+        "n": 606,
+        "aspect": "performance",
+        "segment_rank": 9,
+        "overall_rank": 1,
+        "rank_shift": -8,
+        "risk_ratio": NaN,
+        "p_adj": 3.786418102155445e-09,
+        "n_mentions": 71
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Esaad Card",
+        "n": 978,
+        "aspect": "usability",
+        "segment_rank": 3,
+        "overall_rank": 10,
+        "rank_shift": 7,
+        "risk_ratio": 1.1389521640091116,
+        "p_adj": 1.0,
+        "n_mentions": 33
+      },
+      {
+        "segment_type": "entity",
+        "segment": "S'hail",
+        "n": 1404,
+        "aspect": "payment",
+        "segment_rank": 1,
+        "overall_rank": 7,
+        "rank_shift": 6,
+        "risk_ratio": 6.127033307513556,
+        "p_adj": 0.09863304775817137,
+        "n_mentions": 71
+      },
+      {
+        "segment_type": "entity",
+        "segment": "S'hail",
+        "n": 1404,
+        "aspect": "usability",
+        "segment_rank": 5,
+        "overall_rank": 10,
+        "rank_shift": 5,
+        "risk_ratio": 0.5380462022144256,
+        "p_adj": 0.0009993769705491813,
+        "n_mentions": 243
+      },
+      {
+        "segment_type": "entity",
+        "segment": "TAQA Distribution AD",
+        "n": 606,
+        "aspect": "support",
+        "segment_rank": 5,
+        "overall_rank": 9,
+        "rank_shift": 4,
+        "risk_ratio": 1.1078239608801956,
+        "p_adj": 0.9306448996364894,
+        "n_mentions": 33
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Darbi (ITC)",
+        "n": 694,
+        "aspect": "usability",
+        "segment_rank": 6,
+        "overall_rank": 10,
+        "rank_shift": 4,
+        "risk_ratio": 1.314309009376274,
+        "p_adj": 0.5221816171813396,
+        "n_mentions": 74
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Parkin",
+        "n": 707,
+        "aspect": "payment",
+        "segment_rank": 3,
+        "overall_rank": 7,
+        "rank_shift": 4,
+        "risk_ratio": 2.029797163884401,
+        "p_adj": 0.0007906844979971185,
+        "n_mentions": 275
+      },
+      {
+        "segment_type": "entity",
+        "segment": "SEHA",
+        "n": 781,
+        "aspect": "payment",
+        "segment_rank": 3,
+        "overall_rank": 7,
+        "rank_shift": 4,
+        "risk_ratio": 3.380248833592535,
+        "p_adj": 0.04651207762510282,
+        "n_mentions": 67
+      },
+      {
+        "segment_type": "entity",
+        "segment": "DubaiNow",
+        "n": 1149,
+        "aspect": "performance",
+        "segment_rank": 5,
+        "overall_rank": 1,
+        "rank_shift": -4,
+        "risk_ratio": 3.3331496279966935,
+        "p_adj": 8.311025497617134e-13,
+        "n_mentions": 164
+      },
+      {
+        "segment_type": "entity",
+        "segment": "AWQAF UAE",
+        "n": 1022,
+        "aspect": "usability",
+        "segment_rank": 6,
+        "overall_rank": 10,
+        "rank_shift": 4,
+        "risk_ratio": 0.989010989010989,
+        "p_adj": 1.0,
+        "n_mentions": 87
+      },
+      {
+        "segment_type": "entity",
+        "segment": "TAQA Distribution AD",
+        "n": 606,
+        "aspect": "usability",
+        "segment_rank": 7,
+        "overall_rank": 10,
+        "rank_shift": 3,
+        "risk_ratio": 0.16883018677690118,
+        "p_adj": 6.701206651182755e-29,
+        "n_mentions": 131
+      },
+      {
+        "segment_type": "entity",
+        "segment": "EMX Express",
+        "n": 740,
+        "aspect": "support",
+        "segment_rank": 6,
+        "overall_rank": 9,
+        "rank_shift": 3,
+        "risk_ratio": 2.3022407503908284,
+        "p_adj": 0.000726506881614719,
+        "n_mentions": 113
+      },
+      {
+        "segment_type": "entity",
+        "segment": "Smart Salik",
+        "n": 964,
+        "aspect": "support",
+        "segment_rank": 6,
+        "overall_rank": 9,
+        "rank_shift": 3,
+        "risk_ratio": 1.0736842105263158,
+        "p_adj": 1.0,
+        "n_mentions": 55
+      },
+      {
+        "segment_type": "entity",
+        "segment": "SEHA",
+        "n": 781,
+        "aspect": "registration",
+        "segment_rank": 6,
+        "overall_rank": 3,
+        "rank_shift": -3,
+        "risk_ratio": 2.1032659409020216,
+        "p_adj": 0.04915705931144598,
+        "n_mentions": 108
+      },
+      {
+        "segment_type": "entity",
+        "segment": "SEHA",
+        "n": 781,
+        "aspect": "login",
+        "segment_rank": 5,
+        "overall_rank": 2,
+        "rank_shift": -3,
+        "risk_ratio": 2.173017107309487,
+        "p_adj": 0.06577686848521776,
+        "n_mentions": 89
+      }
+    ]
+  }
+}

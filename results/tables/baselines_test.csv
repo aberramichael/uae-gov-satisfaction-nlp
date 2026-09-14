@@ -1,0 +1,4 @@
+model,n,macro_f1,accuracy_secondary,precision_Dissatisfied,recall_Dissatisfied,f1_Dissatisfied,support_Dissatisfied,precision_Satisfied,recall_Satisfied,f1_Satisfied,support_Satisfied,auc
+TF-IDF + logistic regression,7340.0,0.9083,0.9098,0.9077,0.9326,0.92,4079.0,0.9127,0.8813,0.8967,3261.0,0.9605
+TF-IDF + linear SVM,7340.0,0.9107,0.9124,0.9027,0.9441,0.9229,4079.0,0.9258,0.8727,0.8985,3261.0,0.9605
+TF-IDF + multinomial naive Bayes,7340.0,0.8904,0.8931,0.8741,0.9434,0.9074,4079.0,0.9214,0.8301,0.8734,3261.0,0.9448
